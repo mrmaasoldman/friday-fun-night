@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Friday Fun Night</title>
+<meta name="description" content="Friday Fun Night: Fri, Nov 13, 6–9 PM. $10. Pizza, games and fun. Sign up by Wed, Nov 11.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Rubik:wght@400;500;700;800&display=swap">
+<style>
+/* Layout: arcade-marquee poster hero on sunny yellow, then a two-up "sign up / pay" row, then the live roster. One committed light look. */
+:root{
+  --sun:#FFD23F;      /* page */
+  --grape:#1B1340;    /* ink */
+  --sauce:#F2542D;    /* pizza red accent */
+  --mint:#12A4A0;     /* game-token teal */
+  --card:#FFFDF6;     /* card face */
+  --muted:#5A4E7A;    /* secondary ink, grape-tinted */
+  --line:#1B1340;
+  --font-display:"Bungee","Arial Black",Impact,system-ui,sans-serif;
+  --font-body:"Rubik",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;background:var(--sun);color:var(--grape);font-family:var(--font-body);font-size:16px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-top:env(safe-area-inset-top,0px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:calc(56px + env(safe-area-inset-bottom,0px));margin-top:28px;display:grid;gap:28px}
+
+/* hero */
+.hero{position:relative;background:var(--grape);color:var(--sun);border-radius:22px;padding:28px 24px 24px;overflow:hidden;box-shadow:8px 8px 0 var(--sauce)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;
+  background-image:radial-gradient(circle,var(--sun) 1.6px,transparent 2px);background-size:22px 22px}
+.eyebrow{position:relative;font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;color:var(--card);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.eyebrow .tag{background:var(--mint);color:var(--card);padding:3px 10px;border-radius:99px}
+h1{position:relative;font-family:var(--font-display);font-weight:400;line-height:.92;margin:14px 0 18px;font-size:clamp(3rem,13vw,7.2rem);letter-spacing:-.01em;text-wrap:balance}
+h1 span{display:block}
+h1 .fun{color:var(--sauce);text-shadow:4px 4px 0 var(--card)}
+.ticket{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--card);color:var(--grape);border-radius:14px;overflow:hidden}
+.ticket div{padding:12px 14px;border-left:2px dashed var(--grape)}
+.ticket div:first-child{border-left:0}
+.ticket small{display:block;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ticket b{font-family:var(--font-display);font-weight:400;font-size:clamp(1.05rem,3.6vw,1.6rem);line-height:1.1}
+.perks{position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.perks li{list-style:none;border:2px solid var(--sun);color:var(--sun);border-radius:99px;padding:4px 12px;font-weight:700;font-size:.9rem}
+.perks{padding:0;margin-bottom:0}
+.slice{position:absolute;right:-6px;top:10px;width:150px;height:150px;transform:rotate(14deg);opacity:.95}
+
+/* deadline strip */
+.deadline{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px;background:var(--sauce);color:var(--card);border-radius:14px;padding:14px 18px;border:3px solid var(--grape)}
+.deadline strong{font-family:var(--font-display);font-weight:400;font-size:1.15rem;letter-spacing:.02em}
+.deadline .count{font-weight:800;background:var(--grape);border-radius:99px;padding:4px 12px;font-variant-numeric:tabular-nums}
+
+/* two-up */
+.two{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;align-items:start}
+.panel{background:var(--card);border:3px solid var(--line);border-radius:18px;padding:22px;min-width:0}
+h2{font-family:var(--font-display);font-weight:400;font-size:1.5rem;margin:0 0 4px;line-height:1.1}
+.sub{color:var(--muted);margin:0 0 16px}
+label{display:block;font-weight:700;font-size:.9rem;margin-bottom:6px}
+.field{display:grid;gap:0}
+.fields{display:grid;gap:14px}
+input[type=text],select{width:100%;font:inherit;color:var(--grape);background:#fff;border:2px solid var(--grape);border-radius:10px;padding:11px 12px}
+input[type=text]:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,.check input:focus-visible{outline:3px solid var(--mint);outline-offset:2px}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;font-size:.95rem}
+.check input{width:20px;height:20px;accent-color:var(--mint);margin-top:2px;flex:none}
+.btn{font:inherit;font-weight:800;cursor:pointer;border:3px solid var(--grape);border-radius:12px;padding:12px 18px;background:var(--sauce);color:var(--card);box-shadow:4px 4px 0 var(--grape);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--grape)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--grape)}
+.btn:disabled{opacity:.55;cursor:default;transform:none}
+.btn.ghost{background:var(--card);color:var(--grape);box-shadow:3px 3px 0 var(--grape);padding:8px 12px;font-size:.9rem}
+.msg{margin:12px 0 0;font-weight:600;min-height:1.5em}
+.msg.ok{color:var(--mint)} .msg.err{color:var(--sauce)}
+.note{background:var(--sun);border:2px dashed var(--grape);border-radius:12px;padding:12px 14px;font-size:.95rem;margin:0}
+
+/* venmo */
+.venmo{display:grid;gap:14px;justify-items:center;text-align:center}
+.qr{width:min(240px,100%);aspect-ratio:1;max-width:100%;background:#fff;border:3px solid var(--grape);border-radius:14px;padding:10px}
+.qr svg{display:block;width:100%;height:100%}
+.handle{font-family:var(--font-display);font-weight:400;font-size:1.15rem;word-break:break-all}
+.handle-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center}
+.steps{text-align:left;margin:0;padding-left:1.3em;display:grid;gap:6px;font-size:.95rem}
+.steps b{font-weight:800}
+.vlink{color:var(--grape);font-weight:700}
+
+/* roster */
+.roster-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px;margin-bottom:14px}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{border:2px solid var(--grape);border-radius:99px;padding:4px 12px;font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums;background:var(--sun)}
+.stat.paid{background:var(--mint);color:var(--card)}
+ol.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.row{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;gap:10px;align-items:center;border:2px solid var(--grape);border-radius:12px;padding:8px 10px;background:#fff}
+.num{font-family:var(--font-display);font-weight:400;font-variant-numeric:tabular-nums;text-align:center;color:var(--muted)}
+.who{min-width:0}
+.who b{display:block;overflow-wrap:anywhere}
+.who span{font-size:.85rem;color:var(--muted)}
+.side{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.chip{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:3px 10px;border:2px solid var(--grape);white-space:nowrap}
+.chip.yes{background:var(--mint);color:var(--card)}
+.chip.no{background:var(--card);color:var(--sauce);border-color:var(--sauce)}
+button.chip{cursor:pointer;font-family:inherit}
+.mini{font:inherit;font-size:.8rem;font-weight:700;background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:4px}
+.mini.danger{color:var(--sauce)}
+.empty{border:2px dashed var(--grape);border-radius:12px;padding:22px;text-align:center;color:var(--muted);font-weight:500}
+footer{text-align:center;color:var(--muted);font-size:.85rem}
+
+@media (max-width:760px){
+  .two{grid-template-columns:1fr}
+  .slice{width:96px;height:96px;top:6px;right:-10px}
+}
+@media (max-width:440px){
+  .ticket{grid-template-columns:1fr 1fr}
+  .ticket div:nth-child(3){grid-column:1 / -1;border-left:0;border-top:2px dashed var(--grape)}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.refresh{margin-top:12px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <svg class="slice" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 96 L8 14 Q50 -4 92 14 Z" fill="#FFD23F" stroke="#FFFDF6" stroke-width="3"/>
+      <path d="M8 14 Q50 -4 92 14 L86 25 Q50 9 14 25 Z" fill="#E59A3A"/>
+      <circle cx="40" cy="36" r="7" fill="#F2542D"/><circle cx="62" cy="44" r="6" fill="#F2542D"/>
+      <circle cx="50" cy="64" r="6" fill="#F2542D"/><circle cx="34" cy="52" r="2.5" fill="#12A4A0"/>
+      <circle cx="58" cy="28" r="2.5" fill="#12A4A0"/><circle cx="54" cy="80" r="2.5" fill="#12A4A0"/>
+    </svg>
+    <div class="eyebrow"><span class="tag">High school</span><span>You're invited</span></div>
+    <h1><span>Friday</span><span class="fun">Fun</span><span>Night</span></h1>
+    <div class="ticket" role="list">
+      <div role="listitem"><small>Date</small><b>Fri, Nov 13</b></div>
+      <div role="listitem"><small>Time</small><b>6–9 PM</b></div>
+      <div role="listitem"><small>Cost</small><b>$10</b></div>
+    </div>
+    <ul class="perks">
+      <li>Pizza</li><li>Board games</li><li>Card games</li><li>Group games</li><li>Prizes &amp; fun</li>
+    </ul>
+  </header>
+
+  <div class="deadline">
+    <strong>Sign up &amp; pay by Wed, Nov 11</strong>
+    <span class="count" id="countdown">Sign-ups open</span>
+  </div>
+
+  <section class="two">
+    <div class="panel" id="signup-panel">
+      <h2>Save your spot</h2>
+      <p class="sub">Add your name to the list, then send $10 on Venmo.</p>
+      <form id="signup" class="fields" novalidate>
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input type="text" id="f-name" autocomplete="name" maxlength="60" placeholder="First and last name" required>
+        </div>
+        <div class="field">
+          <label for="f-grade">Grade</label>
+          <select id="f-grade" required>
+            <option value="">Pick your grade</option>
+            <option>9th</option><option>10th</option><option>11th</option><option>12th</option>
+          </select>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="f-website">Leave this empty</label><input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <label class="check" for="f-paid"><input type="checkbox" id="f-paid"> I already sent my $10 on Venmo</label>
+        <div><button class="btn" type="submit" id="f-submit">Sign me up</button></div>
+      </form>
+      <p class="msg" id="f-msg" role="status" aria-live="polite"></p>
+      <p class="note" id="f-setup" hidden>This page isn't connected to the sign-up sheet yet. Paste your Apps Script web app URL into SCRIPT_URL near the bottom of index.html.</p>
+    </div>
+
+    <div class="panel venmo">
+      <h2>Pay $10 on Venmo</h2>
+      <div class="qr" aria-label="Venmo QR code for Bethany Maas"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 41 41" shape-rendering="crispEdges"><rect x="-2" y="-2" width="41" height="41" fill="#fff"/><path fill="#111" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM9 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM18 0h1v1h-1zM21 0h1v1h-1zM22 0h1v1h-1zM23 0h1v1h-1zM24 0h1v1h-1zM25 0h1v1h-1zM26 0h1v1h-1zM30 0h1v1h-1zM31 0h1v1h-1zM32 0h1v1h-1zM33 0h1v1h-1zM34 0h1v1h-1zM35 0h1v1h-1zM36 0h1v1h-1zM0 1h1v1h-1zM6 1h1v1h-1zM11 1h1v1h-1zM18 1h1v1h-1zM20 1h1v1h-1zM25 1h1v1h-1zM26 1h1v1h-1zM27 1h1v1h-1zM30 1h1v1h-1zM36 1h1v1h-1zM0 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM6 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM13 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM21 2h1v1h-1zM22 2h1v1h-1zM23 2h1v1h-1zM26 2h1v1h-1zM27 2h1v1h-1zM28 2h1v1h-1zM30 2h1v1h-1zM32 2h1v1h-1zM33 2h1v1h-1zM34 2h1v1h-1zM36 2h1v1h-1zM0 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM8 3h1v1h-1zM13 3h1v1h-1zM15 3h1v1h-1zM17 3h1v1h-1zM18 3h1v1h-1zM20 3h1v1h-1zM22 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM27 3h1v1h-1zM30 3h1v1h-1zM32 3h1v1h-1zM33 3h1v1h-1zM34 3h1v1h-1zM36 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM6 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM12 4h1v1h-1zM17 4h1v1h-1zM19 4h1v1h-1zM21 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM28 4h1v1h-1zM30 4h1v1h-1zM32 4h1v1h-1zM33 4h1v1h-1zM34 4h1v1h-1zM36 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM16 5h1v1h-1zM17 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM31 6h1v1h-1zM32 6h1v1h-1zM33 6h1v1h-1zM34 6h1v1h-1zM35 6h1v1h-1zM36 6h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM22 7h1v1h-1zM26 7h1v1h-1zM0 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM15 8h1v1h-1zM16 8h1v1h-1zM20 8h1v1h-1zM25 8h1v1h-1zM27 8h1v1h-1zM30 8h1v1h-1zM31 8h1v1h-1zM32 8h1v1h-1zM33 8h1v1h-1zM34 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM14 9h1v1h-1zM15 9h1v1h-1zM18 9h1v1h-1zM19 9h1v1h-1zM21 9h1v1h-1zM22 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM25 9h1v1h-1zM26 9h1v1h-1zM28 9h1v1h-1zM31 9h1v1h-1zM33 9h1v1h-1zM35 9h1v1h-1zM0 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM11 10h1v1h-1zM14 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM17 10h1v1h-1zM18 10h1v1h-1zM20 10h1v1h-1zM21 10h1v1h-1zM22 10h1v1h-1zM24 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM33 10h1v1h-1zM34 10h1v1h-1zM35 10h1v1h-1zM36 10h1v1h-1zM2 11h1v1h-1zM7 11h1v1h-1zM10 11h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM18 11h1v1h-1zM21 11h1v1h-1zM22 11h1v1h-1zM24 11h1v1h-1zM26 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM31 11h1v1h-1zM33 11h1v1h-1zM36 11h1v1h-1zM3 12h1v1h-1zM6 12h1v1h-1zM10 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM15 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM18 12h1v1h-1zM20 12h1v1h-1zM22 12h1v1h-1zM23 12h1v1h-1zM25 12h1v1h-1zM27 12h1v1h-1zM29 12h1v1h-1zM30 12h1v1h-1zM31 12h1v1h-1zM32 12h1v1h-1zM34 12h1v1h-1zM35 12h1v1h-1zM36 12h1v1h-1zM0 13h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM5 13h1v1h-1zM8 13h1v1h-1zM10 13h1v1h-1zM13 13h1v1h-1zM19 13h1v1h-1zM21 13h1v1h-1zM22 13h1v1h-1zM23 13h1v1h-1zM28 13h1v1h-1zM31 13h1v1h-1zM35 13h1v1h-1zM1 14h1v1h-1zM3 14h1v1h-1zM6 14h1v1h-1zM9 14h1v1h-1zM10 14h1v1h-1zM12 14h1v1h-1zM13 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM18 14h1v1h-1zM20 14h1v1h-1zM21 14h1v1h-1zM27 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM32 14h1v1h-1zM33 14h1v1h-1zM36 14h1v1h-1zM3 15h1v1h-1zM4 15h1v1h-1zM8 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM14 15h1v1h-1zM16 15h1v1h-1zM19 15h1v1h-1zM21 15h1v1h-1zM23 15h1v1h-1zM26 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM31 15h1v1h-1zM32 15h1v1h-1zM36 15h1v1h-1zM0 16h1v1h-1zM1 16h1v1h-1zM2 16h1v1h-1zM3 16h1v1h-1zM5 16h1v1h-1zM6 16h1v1h-1zM13 16h1v1h-1zM14 16h1v1h-1zM15 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM23 16h1v1h-1zM25 16h1v1h-1zM29 16h1v1h-1zM30 16h1v1h-1zM32 16h1v1h-1zM34 16h1v1h-1zM0 17h1v1h-1zM1 17h1v1h-1zM5 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM12 17h1v1h-1zM14 17h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM19 17h1v1h-1zM21 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM29 17h1v1h-1zM35 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM6 18h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM11 18h1v1h-1zM12 18h1v1h-1zM25 18h1v1h-1zM26 18h1v1h-1zM27 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM32 18h1v1h-1zM33 18h1v1h-1zM35 18h1v1h-1zM36 18h1v1h-1zM0 19h1v1h-1zM2 19h1v1h-1zM4 19h1v1h-1zM7 19h1v1h-1zM8 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM16 19h1v1h-1zM19 19h1v1h-1zM21 19h1v1h-1zM23 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM27 19h1v1h-1zM28 19h1v1h-1zM29 19h1v1h-1zM30 19h1v1h-1zM31 19h1v1h-1zM33 19h1v1h-1zM36 19h1v1h-1zM3 20h1v1h-1zM4 20h1v1h-1zM5 20h1v1h-1zM6 20h1v1h-1zM8 20h1v1h-1zM9 20h1v1h-1zM13 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM25 20h1v1h-1zM26 20h1v1h-1zM27 20h1v1h-1zM29 20h1v1h-1zM30 20h1v1h-1zM32 20h1v1h-1zM34 20h1v1h-1zM2 21h1v1h-1zM3 21h1v1h-1zM4 21h1v1h-1zM5 21h1v1h-1zM8 21h1v1h-1zM13 21h1v1h-1zM14 21h1v1h-1zM17 21h1v1h-1zM19 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM33 21h1v1h-1zM35 21h1v1h-1zM1 22h1v1h-1zM2 22h1v1h-1zM3 22h1v1h-1zM6 22h1v1h-1zM7 22h1v1h-1zM9 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM15 22h1v1h-1zM17 22h1v1h-1zM20 22h1v1h-1zM22 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM30 22h1v1h-1zM31 22h1v1h-1zM32 22h1v1h-1zM33 22h1v1h-1zM36 22h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM8 23h1v1h-1zM10 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM17 23h1v1h-1zM18 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM26 23h1v1h-1zM28 23h1v1h-1zM31 23h1v1h-1zM32 23h1v1h-1zM35 23h1v1h-1zM36 23h1v1h-1zM0 24h1v1h-1zM1 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM7 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM19 24h1v1h-1zM20 24h1v1h-1zM25 24h1v1h-1zM28 24h1v1h-1zM29 24h1v1h-1zM30 24h1v1h-1zM31 24h1v1h-1zM32 24h1v1h-1zM34 24h1v1h-1zM36 24h1v1h-1zM0 25h1v1h-1zM1 25h1v1h-1zM2 25h1v1h-1zM4 25h1v1h-1zM7 25h1v1h-1zM8 25h1v1h-1zM10 25h1v1h-1zM11 25h1v1h-1zM15 25h1v1h-1zM18 25h1v1h-1zM19 25h1v1h-1zM22 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM26 25h1v1h-1zM28 25h1v1h-1zM33 25h1v1h-1zM0 26h1v1h-1zM2 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM14 26h1v1h-1zM15 26h1v1h-1zM16 26h1v1h-1zM18 26h1v1h-1zM22 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM27 26h1v1h-1zM28 26h1v1h-1zM29 26h1v1h-1zM33 26h1v1h-1zM35 26h1v1h-1zM36 26h1v1h-1zM0 27h1v1h-1zM2 27h1v1h-1zM3 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM8 27h1v1h-1zM10 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM14 27h1v1h-1zM15 27h1v1h-1zM21 27h1v1h-1zM22 27h1v1h-1zM23 27h1v1h-1zM24 27h1v1h-1zM26 27h1v1h-1zM27 27h1v1h-1zM32 27h1v1h-1zM33 27h1v1h-1zM36 27h1v1h-1zM0 28h1v1h-1zM2 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM8 28h1v1h-1zM9 28h1v1h-1zM12 28h1v1h-1zM15 28h1v1h-1zM16 28h1v1h-1zM17 28h1v1h-1zM18 28h1v1h-1zM20 28h1v1h-1zM22 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM31 28h1v1h-1zM32 28h1v1h-1zM34 28h1v1h-1zM35 28h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM13 29h1v1h-1zM19 29h1v1h-1zM21 29h1v1h-1zM23 29h1v1h-1zM25 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM32 29h1v1h-1zM33 29h1v1h-1zM35 29h1v1h-1zM0 30h1v1h-1zM1 30h1v1h-1zM2 30h1v1h-1zM3 30h1v1h-1zM4 30h1v1h-1zM5 30h1v1h-1zM6 30h1v1h-1zM9 30h1v1h-1zM12 30h1v1h-1zM14 30h1v1h-1zM15 30h1v1h-1zM16 30h1v1h-1zM18 30h1v1h-1zM22 30h1v1h-1zM24 30h1v1h-1zM28 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM34 30h1v1h-1zM36 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM8 31h1v1h-1zM9 31h1v1h-1zM10 31h1v1h-1zM12 31h1v1h-1zM14 31h1v1h-1zM15 31h1v1h-1zM20 31h1v1h-1zM21 31h1v1h-1zM28 31h1v1h-1zM32 31h1v1h-1zM33 31h1v1h-1zM36 31h1v1h-1zM0 32h1v1h-1zM2 32h1v1h-1zM3 32h1v1h-1zM4 32h1v1h-1zM6 32h1v1h-1zM8 32h1v1h-1zM10 32h1v1h-1zM12 32h1v1h-1zM13 32h1v1h-1zM15 32h1v1h-1zM18 32h1v1h-1zM20 32h1v1h-1zM25 32h1v1h-1zM27 32h1v1h-1zM28 32h1v1h-1zM29 32h1v1h-1zM30 32h1v1h-1zM31 32h1v1h-1zM32 32h1v1h-1zM34 32h1v1h-1zM0 33h1v1h-1zM2 33h1v1h-1zM3 33h1v1h-1zM4 33h1v1h-1zM6 33h1v1h-1zM8 33h1v1h-1zM9 33h1v1h-1zM10 33h1v1h-1zM11 33h1v1h-1zM13 33h1v1h-1zM15 33h1v1h-1zM16 33h1v1h-1zM17 33h1v1h-1zM19 33h1v1h-1zM22 33h1v1h-1zM23 33h1v1h-1zM24 33h1v1h-1zM25 33h1v1h-1zM26 33h1v1h-1zM29 33h1v1h-1zM30 33h1v1h-1zM32 33h1v1h-1zM36 33h1v1h-1zM0 34h1v1h-1zM2 34h1v1h-1zM3 34h1v1h-1zM4 34h1v1h-1zM6 34h1v1h-1zM8 34h1v1h-1zM9 34h1v1h-1zM18 34h1v1h-1zM21 34h1v1h-1zM25 34h1v1h-1zM26 34h1v1h-1zM28 34h1v1h-1zM33 34h1v1h-1zM34 34h1v1h-1zM35 34h1v1h-1zM36 34h1v1h-1zM0 35h1v1h-1zM6 35h1v1h-1zM9 35h1v1h-1zM11 35h1v1h-1zM12 35h1v1h-1zM14 35h1v1h-1zM16 35h1v1h-1zM20 35h1v1h-1zM21 35h1v1h-1zM22 35h1v1h-1zM23 35h1v1h-1zM26 35h1v1h-1zM27 35h1v1h-1zM28 35h1v1h-1zM29 35h1v1h-1zM30 35h1v1h-1zM32 35h1v1h-1zM33 35h1v1h-1zM36 35h1v1h-1zM0 36h1v1h-1zM1 36h1v1h-1zM2 36h1v1h-1zM3 36h1v1h-1zM4 36h1v1h-1zM5 36h1v1h-1zM6 36h1v1h-1zM8 36h1v1h-1zM9 36h1v1h-1zM10 36h1v1h-1zM12 36h1v1h-1zM14 36h1v1h-1zM16 36h1v1h-1zM17 36h1v1h-1zM18 36h1v1h-1zM22 36h1v1h-1zM24 36h1v1h-1zM25 36h1v1h-1zM26 36h1v1h-1zM29 36h1v1h-1zM30 36h1v1h-1zM32 36h1v1h-1zM34 36h1v1h-1zM35 36h1v1h-1zM36 36h1v1h-1z"/></svg></div>
+      <div class="handle-row">
+        <span class="handle" id="handle">@Bethany-Maas-1</span>
+        <button class="btn ghost" type="button" id="copy">Copy</button>
+      </div>
+      <ol class="steps">
+        <li>Scan the code or search <b>@Bethany-Maas-1</b> in Venmo.</li>
+        <li>Send <b>$10</b>.</li>
+        <li>In the note, write <b>Friday Fun Night</b> and your name.</li>
+      </ol>
+      <a class="vlink" href="https://venmo.com/u/Bethany-Maas-1" target="_blank" rel="noopener">Open in Venmo ↗</a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="roster-head">
+      <div><h2>Who's coming</h2><p class="sub" style="margin:0">A green check means Mr. Maas got your $10.</p></div>
+      <div class="stats"><span class="stat" id="s-total">0 signed up</span><span class="stat paid" id="s-paid">0 paid</span></div>
+    </div>
+    <ol class="list" id="list"></ol>
+    <div class="empty" id="empty">No one has signed up yet. Add your name above to be first on the list.</div>
+    <p class="msg" id="list-msg" role="status" aria-live="polite" hidden></p>
+  </section>
+
+  <footer>Questions? Ask Mr. Maas.</footer>
+</div>
+
+
+<script>
+// Paste your Apps Script web app URL here (it ends in /exec)
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7gfBpDyMjnivyXFK7IYzxTiZk0Skrd5QIgdT3321gqeVQnJJcKW558Yfcah6rqJfTHA/exec";
+
+(function(){
+  var DEADLINE = new Date("2026-11-12T00:00:00-06:00"); // end of Wed, Nov 11 (Central)
+  var $ = function(id){ return document.getElementById(id); };
+  var connected = /^https:\/\/script\.google\.com\/.+\/exec$/.test(SCRIPT_URL);
+
+  function countdown(){
+    var ms = DEADLINE - new Date(), el = $("countdown");
+    if (ms <= 0) { el.textContent = "Sign-ups closed"; return; }
+    var d = Math.ceil(ms / 86400000);
+    el.textContent = d === 1 ? "Last day to sign up" : d + " days left";
+  }
+  countdown();
+
+  $("copy").addEventListener("click", function(){
+    var b = this;
+    function sel(){ var r=document.createRange(); r.selectNodeContents($("handle")); var s=getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent="Selected"; }
+    try {
+      navigator.clipboard.writeText("@Bethany-Maas-1").then(function(){ b.textContent="Copied"; setTimeout(function(){ b.textContent="Copy"; },1500); }, sel);
+    } catch(e){ sel(); }
+  });
+
+  function setMsg(t, kind){ var m=$("f-msg"); m.textContent=t; m.className="msg"+(kind?" "+kind:""); }
+
+  function render(data){
+    var list = $("list"); list.textContent = "";
+    var people = (data && data.people) || [];
+    $("empty").hidden = people.length > 0;
+    people.forEach(function(p, i){
+      var li=document.createElement("li"); li.className="row";
+      var n=document.createElement("span"); n.className="num"; n.textContent=i+1;
+      var who=document.createElement("div"); who.className="who";
+      var b=document.createElement("b"); b.textContent=p.name || "Someone";
+      var g=document.createElement("span"); g.textContent=p.grade ? p.grade+" grade" : "";
+      who.append(b,g);
+      var side=document.createElement("div"); side.className="side";
+      var chip=document.createElement("span");
+      chip.className="chip "+(p.paid?"yes":"no"); chip.textContent=p.paid?"Paid ✓":"Not paid yet";
+      side.append(chip);
+      li.append(n,who,side); list.append(li);
+    });
+    $("s-total").textContent = people.length+" signed up";
+    $("s-paid").textContent = ((data && data.paid) || 0)+" paid";
+  }
+
+  function loadList(){
+    if (!connected) return;
+    fetch(SCRIPT_URL)
+      .then(function(r){ return r.json(); })
+      .then(function(d){ $("list-msg").hidden = true; render(d); })
+      .catch(function(){
+        var m=$("list-msg"); m.hidden=false; m.className="msg err";
+        m.textContent="Couldn't load the list right now. It will try again in a minute.";
+      });
+  }
+
+  var ERRORS = {
+    closed: "Sign-ups closed on Nov 11. Talk to Mr. Maas.",
+    name: "Type your first and last name.",
+    grade: "Pick your grade.",
+    duplicate: "You're already on the list. No need to sign up twice.",
+    full: "The list is full. Talk to Mr. Maas."
+  };
+
+  $("signup").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = $("f-name").value.trim().replace(/\s+/g," ");
+    var grade = $("f-grade").value;
+    if (name.length < 2) { setMsg(ERRORS.name,"err"); $("f-name").focus(); return; }
+    if (!grade) { setMsg(ERRORS.grade,"err"); $("f-grade").focus(); return; }
+    if (new Date() >= DEADLINE) { setMsg(ERRORS.closed,"err"); return; }
+    if (!connected) { $("f-setup").hidden=false; setMsg("Sign-ups aren't connected yet.","err"); return; }
+
+    var paid = $("f-paid").checked;
+    var body = new URLSearchParams({ name:name, grade:grade, paid: paid?"yes":"no", website: $("f-website").value });
+    var btn = $("f-submit"); btn.disabled = true; setMsg("Adding you…");
+
+    fetch(SCRIPT_URL, { method:"POST", body: body })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.ok) {
+          $("signup").reset();
+          setMsg(paid ? "You're on the list. See you Friday!" : "You're on the list. Now send $10 on Venmo to lock in your spot.","ok");
+          loadList();
+        } else {
+          setMsg(ERRORS[d.error] || "That didn't save. Try again in a minute.","err");
+        }
+      })
+      .catch(function(){ setMsg("That didn't save. Check your connection and tap Sign me up again.","err"); })
+      .finally(function(){ btn.disabled = false; });
+  });
+
+  if (!connected) $("f-setup").hidden = false;
+  render(null);
+  loadList();
+  setInterval(loadList, 60000);
+})();
+</script>
+</body>
+</html>
