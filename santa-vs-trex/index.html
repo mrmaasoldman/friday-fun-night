@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Santa vs. T-Rex: The Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Oswald:wght@500;700&family=Bitter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a worn 1950s prize-fight bill: loud, proud, a little beat-up, all in fun
+   IDEA: the two fight posters pasted side by side, with the rest of the bill printed around them
+   PICTURE: the owner's two poster images, big, tilted like they were pasted on a wall
+   COLOUR and TYPE: soot black, aged tan paper, faded fight red, cream ink; Alfa Slab One + Oswald + Bitter
+   LAYOUT: red star banner, the posters, a red name ribbon, then the story, tale of the tape, the song card, the endings */
+:root{color-scheme:dark;--soot:#1c1713;--soot2:#26201a;--tan:#e6d3a9;--tan2:#cdb27c;--red:#a6261c;--red2:#7e1a13;--cream:#f2e3bd;--ink:#1c1713}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--soot);color:var(--cream);font:17px/1.65 Bitter,Georgia,serif;overflow-x:clip;padding-bottom:84px}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.28;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+h1,h2,h3{margin:0;font-weight:400;line-height:1}
+.worn{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.6 2.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.6 2.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3C/svg%3E")}
+.banner{display:flex;align-items:center;justify-content:center;gap:clamp(10px,3vw,40px);background:var(--red);color:var(--cream);padding:10px 16px;border-bottom:3px solid var(--tan2);font:700 clamp(18px,3vw,34px)/1.1 Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.star{flex:none;width:clamp(20px,2.6vw,34px);height:clamp(20px,2.6vw,34px);fill:var(--cream)}
+.hero{background:radial-gradient(1000px 500px at 50% 30%,#3a2e22,transparent),var(--soot);padding:clamp(22px,4vw,48px) max(3vw,12px) 0;overflow:hidden}
+.posters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,3vw,40px);max-width:1180px;margin:0 auto}
+.posters figure{margin:0;background:var(--tan);padding:clamp(6px,1vw,12px);box-shadow:0 18px 40px rgba(0,0,0,.65)}
+.posters figure:first-child{transform:rotate(-1.6deg)}
+.posters figure:last-child{transform:rotate(1.4deg)}
+.posters img{display:block;width:100%;height:auto;aspect-ratio:1199/1312}
+.ribbon{position:relative;z-index:2;max-width:1240px;margin:clamp(-30px,-2.2vw,-12px) auto 0;background:var(--red);border-top:4px solid var(--tan2);border-bottom:4px solid var(--tan2);transform:rotate(-1.2deg);box-shadow:0 12px 30px rgba(0,0,0,.6);padding:clamp(10px,2vw,22px) 12px;display:flex;align-items:center;justify-content:center;gap:clamp(10px,3vw,36px)}
+.ribbon h1{font:400 clamp(44px,9.5vw,128px)/1 "Alfa Slab One",Georgia,serif;color:var(--cream);letter-spacing:1px;text-align:center}
+.ribbon h1 em{font:700 .34em Oswald,Impact,sans-serif;font-style:normal;vertical-align:middle;margin:0 .2em;letter-spacing:2px}
+.ribbon .star{width:clamp(26px,4vw,52px);height:clamp(26px,4vw,52px)}
+.under{max-width:1180px;margin:0 auto;padding:clamp(22px,3vw,34px) 0 clamp(30px,4vw,50px);text-align:center}
+.under h2{font:700 clamp(22px,3.4vw,40px)/1.15 Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--cream)}
+.billline{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 18px;font:500 clamp(15px,1.8vw,20px) Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--tan);border-top:2px solid var(--tan2);border-bottom:2px solid var(--tan2);padding:8px 0;margin:14px auto 24px;max-width:860px}
+.billline .star{width:14px;height:14px;fill:var(--red)}
+.play{display:inline-flex;align-items:center;gap:14px;min-height:58px;padding:0 26px 0 14px;background:var(--cream);color:var(--ink);border:3px solid var(--red);font:700 clamp(19px,2.2vw,24px) Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;cursor:pointer;box-shadow:6px 6px 0 var(--red2)}
+.play i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--red)}
+.play i svg{width:15px;height:15px}
+.play:focus-visible,.pb:focus-visible,.btn:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+.sub{margin:12px 0 0;color:var(--tan);font-style:italic}
+.band{padding:clamp(40px,6vw,78px) max(4vw,14px)}
+.wrap{max-width:1140px;margin:0 auto}
+.head{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.head h2{font:400 clamp(32px,5vw,58px) "Alfa Slab One",Georgia,serif;text-transform:uppercase;white-space:nowrap}
+.head::before,.head::after{content:"";flex:1;height:3px;background:var(--tan2);box-shadow:0 7px 0 var(--tan2)}
+.paper{background:var(--tan);color:var(--ink)}
+.paper .head::before,.paper .head::after{background:var(--ink);box-shadow:0 7px 0 var(--ink)}
+.intro{font-size:clamp(18px,2vw,21px);max-width:62ch;margin:0 auto 34px;text-align:center}
+.rounds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:3px solid var(--ink)}
+.rd{padding:22px clamp(16px,2vw,26px) 24px}
+.rd+.rd{border-left:3px solid var(--ink)}
+.rd .tag{display:inline-block;background:var(--red);color:var(--cream);font:700 15px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;margin-bottom:12px}
+.rd h3{font:400 clamp(24px,2.6vw,30px)/1.1 "Alfa Slab One",Georgia,serif;margin-bottom:10px}
+.rd p{margin:0 0 10px;font-size:16px}
+.tape{background:var(--soot2);border-top:3px solid var(--tan2);border-bottom:3px solid var(--tan2)}
+table{width:100%;border-collapse:collapse;font-size:clamp(15px,1.7vw,18px)}
+th{font:400 clamp(28px,4.4vw,52px) "Alfa Slab One",Georgia,serif;text-transform:uppercase;padding:0 0 12px;color:var(--cream)}
+th.s{text-align:left}th.r{text-align:right}
+td{padding:13px 6px;border-top:1px solid #4a3e30;vertical-align:top}
+td.k{text-align:center;font:700 14px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--cream);width:24%;padding-top:15px}
+td.k span{display:inline-block;background:var(--red);padding:2px 10px}
+td.sv{text-align:left;color:var(--tan)}td.rv{text-align:right;color:var(--tan)}
+.songtop{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 26px;margin-bottom:30px;text-align:center}
+.songtop p{margin:0;max-width:50ch}
+.card{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.round{background:#f1e4c4;border:2px solid var(--ink);padding:0 0 18px;box-shadow:0 8px 20px rgba(60,40,20,.25)}
+.round.wide{grid-column:1/-1;text-align:center}
+.round header{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--ink);color:var(--cream);padding:7px 16px;margin-bottom:12px}
+.round.wide header{justify-content:center;gap:20px}
+.round h3{font:700 20px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.round .who{font:700 15px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;background:var(--tan2);color:var(--ink);padding:1px 10px}
+.round.santa .who,.round.rex .who{background:var(--red);color:var(--cream)}
+.round p{margin:0;padding:0 18px;white-space:pre-line;font-size:16px;line-height:1.7}
+.ends{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(18px,3vw,34px)}
+.end{background:var(--tan);color:var(--ink);padding:10px 10px 0;box-shadow:0 14px 34px rgba(0,0,0,.55)}
+.end img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;filter:contrast(1.05)}
+.end .t{padding:18px 14px 22px}
+.end h3{font:400 clamp(26px,3vw,34px) "Alfa Slab One",Georgia,serif;text-transform:uppercase;margin-bottom:6px}
+.end .lbl{display:inline-block;background:var(--red);color:var(--cream);font:700 14px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;padding:2px 10px;margin-bottom:10px}
+.end p{margin:0 0 10px}
+.cta{text-align:center;background:var(--red);border-top:4px solid var(--tan2);border-bottom:4px solid var(--tan2)}
+.cta h2{font:400 clamp(38px,7vw,82px) "Alfa Slab One",Georgia,serif;text-transform:uppercase;margin-bottom:10px}
+.cta p{margin:0 auto 24px;max-width:46ch}
+.btn{display:inline-flex;align-items:center;min-height:58px;padding:0 32px;background:var(--cream);color:var(--ink);text-decoration:none;font:700 24px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;box-shadow:6px 6px 0 var(--soot)}
+footer{padding:22px 16px;text-align:center;font:500 15px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--tan2)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px max(3vw,12px);background:var(--soot);color:var(--cream);border-top:4px solid var(--red)}
+.pb{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:0;background:var(--red);cursor:pointer}
+.pb svg{width:17px;height:17px}
+.bar .ti{flex:none;font:700 16px Oswald,Impact,sans-serif;letter-spacing:1.5px;text-transform:uppercase;max-width:34vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar input{flex:1;accent-color:var(--red);height:28px}
+.bar .tm{flex:none;font:500 14px Oswald,Impact,sans-serif;letter-spacing:1px;white-space:nowrap}
+@media(max-width:820px){
+  .rounds{grid-template-columns:1fr}.rd+.rd{border-left:0;border-top:3px solid var(--ink)}
+  .card{grid-template-columns:1fr}.ends{grid-template-columns:1fr}
+  .head h2{white-space:normal;text-align:center}
+  .bar .ti{display:none}
+}
+@media(max-width:520px){.posters{gap:10px}.ribbon .star{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="st" viewBox="0 0 24 24"><path d="M12 1.5l3.2 7.1 7.7.8-5.8 5.2 1.7 7.6L12 18.3l-6.8 3.9 1.7-7.6L1.1 9.4l7.7-.8z"/></symbol></defs></svg>
+
+<div class="banner"><svg class="star"><use href="#st"/></svg><span class="worn">World Heavyweight Christmas Championship</span><svg class="star"><use href="#st"/></svg></div>
+
+<header class="hero">
+  <div class="posters">
+    <figure><img src="santa-poster.jpg" alt="Fight poster: Santa Claus in boxing gloves, The Jolly Destroyer, vs. the Naughty List"></figure>
+    <figure><img src="trex-poster.jpg" alt="Fight poster: T-Rex in red boxing gloves, The T-Rex Destroyer, vs. the Champion"></figure>
+  </div>
+  <div class="ribbon"><svg class="star"><use href="#st"/></svg><h1 class="worn">Santa<em>vs.</em>T-Rex</h1><svg class="star"><use href="#st"/></svg></div>
+  <div class="under">
+    <h2 class="worn">The Naughty List Grudge Match</h2>
+    <div class="billline"><span>Live in our front yard</span><svg class="star"><use href="#st"/></svg><span>Every night in December</span><svg class="star"><use href="#st"/></svg><span>Rain or snow</span></div>
+    <button class="play" type="button" data-play><i><svg viewBox="0 0 16 16"><path d="M3 1 L14 8 L3 15Z" fill="#f2e3bd"/></svg></i><span data-label>Play the yard song</span></button>
+    <p class="sub">This is the song playing outside.</p>
+  </div>
+</header>
+
+<section class="band paper" id="story">
+  <div class="wrap">
+    <div class="head"><h2 class="worn">The grudge</h2></div>
+    <p class="intro">Look out at the yard and you'll see Santa and a T-Rex squared off in the snow. They've been fighting every Christmas Eve for thousands of years, and here's why.</p>
+    <div class="rounds">
+      <article class="rd"><span class="tag">Round one</span><h3>The squished presents</h3>
+        <p>Back in the age of the dinosaurs, a young T-Rex went stomping right through Christmas. He didn't look where he was going, and he didn't care.</p>
+        <p>Stomp. Stomp. Squish. A whole pile of presents got flattened under his feet, and Santa saw every bit of it.</p></article>
+      <article class="rd"><span class="tag">Round two</span><h3>Top of the Naughty List</h3>
+        <p>That night, by candlelight, Santa unrolled the Naughty List and wrote one name at the very top: T. Rex. Then he stamped it in red.</p>
+        <p>No presents for T-Rex. Not that year, and not any year after.</p></article>
+      <article class="rd"><span class="tag">Round three</span><h3>Every Christmas Eve</h3>
+        <p>T-Rex never forgot. If he can't have Christmas, nobody can. So every December he cracks out of the ice and storms the North Pole.</p>
+        <p>And every year, Santa is waiting for him. Only one of them can win, so every year, they fight.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="band tape" id="tape">
+  <div class="wrap">
+    <div class="head"><h2 class="worn">Tale of the tape</h2></div>
+    <table>
+      <thead><tr><th class="s" scope="col">Santa</th><th scope="col"><span style="position:absolute;left:-9999px">Stat</span></th><th class="r" scope="col">T-Rex</th></tr></thead>
+      <tbody id="tapeRows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="band paper" id="song">
+  <div class="wrap">
+    <div class="head"><h2 class="worn">The yard song</h2></div>
+    <div class="songtop">
+      <button class="play" type="button" data-play><i><svg viewBox="0 0 16 16"><path d="M3 1 L14 8 L3 15Z" fill="#f2e3bd"/></svg></i><span data-label>Play the yard song</span></button>
+      <p><strong>"Every December, When the North Wind Flex."</strong> A rap battle in three rounds, playing in the yard every night. Follow along below.</p>
+    </div>
+    <div class="card" id="card"></div>
+  </div>
+</section>
+
+<section class="band" id="endings">
+  <div class="wrap">
+    <div class="head"><h2 class="worn">The decision</h2></div>
+    <div class="ends">
+      <article class="end"><img src="trex-face.jpg" alt="T-Rex roaring in red boxing gloves"><div class="t"><span class="lbl">If T-Rex wins</span><h3>Christmas is canceled</h3>
+        <p>T-Rex roars over the knocked-out Santa and stomps into the workshop. The lights go out one window at a time, and a sign drops down: Christmas is canceled.</p>
+        <p>No presents, no lights, no Christmas morning, and all the children in the world are very sad.</p></div></article>
+      <article class="end"><img src="santa-face.jpg" alt="Santa Claus with his gloves up"><div class="t"><span class="lbl">If Santa wins</span><h3>Christmas is saved</h3>
+        <p>"Ho ho ho!" The sleigh flies over every town on Earth, and every child wakes up to presents under the tree.</p>
+        <p>And T-Rex? Back on the Naughty List and behind bars, yelling, "I will be back next year!"</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="band cta" id="game">
+  <div class="wrap">
+    <h2 class="worn">Step into the ring</h2>
+    <p>Think you'd do better? Play the Santa vs. T-Rex fighting game with a friend or against the computer.</p>
+    <a class="btn" href="https://claude.ai/artifact/2DdhPAKNfmCFmH7WcuxCoG">Play the game</a>
+  </div>
+</section>
+
+<footer>Santa vs. T-Rex ★ Story and song by Mr. Maas ★ Merry Christmas from our yard to yours</footer>
+
+<div class="bar" role="region" aria-label="Song player">
+  <button class="pb" type="button" id="pb" aria-label="Play"><svg viewBox="0 0 16 16" id="pbIcon"><path d="M3 1 L14 8 L3 15Z" fill="#f2e3bd"/></svg></button>
+  <span class="ti">Every December, When the North Wind Flex</span>
+  <input type="range" id="seek" min="0" max="170" step="0.1" value="0" aria-label="Song position">
+  <span class="tm" id="tm">0:00 / 2:50</span>
+</div>
+<audio id="aud" src="song.mp3" preload="metadata"></audio>
+<script>
+{
+const TAPE=[
+  ['Home','The North Pole','Under the ice'],
+  ['Fighting style','Fast and tricky','Huge and heavy'],
+  ['Signature move','Candy Cane Uppercut','Tail Whip'],
+  ['Finisher','Reindeer Stampede','Meteor Shower'],
+  ['Secret weapon','The Naughty List (checked twice)','Icy breath and blizzards'],
+  ['Weakness','Beard freezes in a blizzard','Tiny arms, slips on ice'],
+  ['Says','"Ho ho hold up!"','"RAWR!"']
+];
+document.getElementById('tapeRows').innerHTML=TAPE.map(r=>`<tr><td class="sv">${r[1]}</td><td class="k"><span>${r[0]}</span></td><td class="rv">${r[2]}</td></tr>`).join('');
+
+const L=[
+ ['narr','Intro','Narrator',`Every December, when the north wind flex,
+Out the ice cracks… here comes T-Rex.
+One hates joy, lights, and gifts getting sent—
+The other runs Christmas at 100%`],
+ ['rex','Round 1','T-Rex',`RAWR! I'm the Dino Grinch, king of the freeze,
+Tiny arms, big hate, zero holiday cheer, please.
+I stomp through the snow, shake bells off your sleigh,
+I cancel December like "Nah, not today."
+I munch candy canes, I crunch elves for snacks,
+I tail-whip Rudolph, knock stars off the tracks.
+This year, old man, I'm ending your run—
+No gifts, no joy… just extinction for fun!`],
+ ['santa','Round 1','Santa',`Ho ho hold up, you fossilized hater,
+I been spreading joy since way before glaciers.
+You got teeth, I got lists, and I check 'em twice,
+I know you been naughty for like… all of life.
+You roar real loud but you slip on the ice,
+I slide down chimneys like "NICE TRY, NICE."
+You tryna stop Christmas? Buddy, that's cute—
+I powered this sleigh on pure holiday spirit and milk-and-cookies fuel!`],
+ ['rex','Round 2','T-Rex',`You think you won? This battle's annual pain!
+Every year I return like a bad candy cane.
+I breathe icy breath, make blizzards attack,
+I slap your sleigh mid-air with my prehistoric back.
+I scare kids awake yelling "SANTA IS DONE!"
+I eat all the reindeer—
+(wait)—
+Okay, one… I saved one for fun
+Face it, Claus, I'm the end of your cheer,
+I've been ruining Christmas for millions of years!`],
+ ['santa','Round 2','Santa',`Millions of years? Bro, you missed the memo,
+Christmas hits harder every time that we go.
+I got elves in the lab, toy tech on blast,
+I upgraded the sleigh—now it moves ludicrous fast.
+You got tiny arms, can't wrap a single present,
+Can't even dab, that's honestly tragic.
+You may stomp the snow, but I rise every time—
+Because hope, my friend, is my secret supply!`],
+ ['rex','Final round','T-Rex',`RAAAAWR! I'm swinging my tail, Christmas on the brink!
+I'm this close to winning—
+(slips)—
+Wait—what's this pink?
+Why's the ground all sticky? Why can't I move—
+OH NO… IS THIS… GINGERBREAD GLUE?!`],
+ ['santa','Final round','Santa',`That's right, big lizard, holiday classic!
+Elves baked the trap—extra festive, extra drastic.
+I barely survived, my beard's on ice,
+Sleigh's held together with duct tape and faith tonight.
+But Christmas ain't cancelled, the bells still ring,
+Kids still believe, and the choirs still sing.
+You'll be back next year—I know it's true…
+But tonight, T-Rex—
+CHRISTMAS BEATS YOU.`],
+ ['narr','Outro','Narrator',`And so it ends… but not forever, you see,
+Every year, same battle, same Christmas decree.
+Santa wins barely, by joy and belief—
+While T-Rex plots revenge…
+…somewhere under the tree
+HO. HO. MIC DROP.`]
+];
+document.getElementById('card').innerHTML=L.map(([w,r,who,t],i)=>`<article class="round ${w}${w==='narr'?' wide':''}"><header><h3>${r}</h3><span class="who">${who}</span></header><p>${t}</p></article>`).join('');
+
+const a=document.getElementById('aud'),seek=document.getElementById('seek'),tm=document.getElementById('tm'),pb=document.getElementById('pb'),ic=document.getElementById('pbIcon');
+const PLAY='<path d="M3 1 L14 8 L3 15Z" fill="#f2e3bd"/>',PAUSE='<rect x="2" y="1" width="4" height="14" fill="#f2e3bd"/><rect x="10" y="1" width="4" height="14" fill="#f2e3bd"/>';
+const fmt=s=>{s=Math.max(0,s|0);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+const btns=[...document.querySelectorAll('[data-play]')];
+function sync(){const on=!a.paused;ic.innerHTML=on?PAUSE:PLAY;pb.setAttribute('aria-label',on?'Pause':'Play');
+  btns.forEach(b=>{b.querySelector('[data-label]').textContent=on?'Pause the song':'Play the yard song';b.querySelector('i').innerHTML=`<svg viewBox="0 0 16 16">${on?PAUSE:PLAY}</svg>`})}
+function toggle(){try{if(a.paused){const p=a.play();if(p&&p.catch)p.catch(()=>{})}else a.pause()}catch(e){}}
+pb.addEventListener('click',toggle);btns.forEach(b=>b.addEventListener('click',toggle));
+a.addEventListener('play',sync);a.addEventListener('pause',sync);a.addEventListener('ended',sync);
+a.addEventListener('loadedmetadata',()=>{if(isFinite(a.duration)){seek.max=a.duration;tm.textContent=`${fmt(a.currentTime)} / ${fmt(a.duration)}`}});
+let drag=false;
+seek.addEventListener('input',()=>{drag=true;tm.textContent=`${fmt(+seek.value)} / ${fmt(a.duration||170)}`});
+seek.addEventListener('change',()=>{try{a.currentTime=+seek.value}catch(e){}drag=false});
+a.addEventListener('timeupdate',()=>{if(!drag)seek.value=a.currentTime;tm.textContent=`${fmt(a.currentTime)} / ${fmt(a.duration||170)}`});
+}
+</script>
+</body>
+</html>
