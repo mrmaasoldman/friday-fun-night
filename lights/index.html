@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lantern Light Remote</title>
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-title" content="Lights">
+<meta name="theme-color" content="#0d0e12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly remote control, glowing at night
+   IDEA: a handheld LED remote whose wheel glows the colour you pick
+   PICTURE: big touch colour wheel with the live lamp glow behind it
+   COLOUR and TYPE: near-black room, the chosen colour as the light source; Outfit
+   LAYOUT: status bar, wheel, brightness, swatches, effects; one column on phones */
+:root{color-scheme:dark;--bg:#0d0e12;--panel:#171920;--line:#2a2d37;--ink:#f2f3f6;--mute:#9aa0ad;--glow:#ff6a3d}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Outfit,system-ui,sans-serif;overflow-x:clip}
+main{max-width:520px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h1{font-size:26px;line-height:1.05;margin:0;flex:1}
+.dot{width:10px;height:10px;border-radius:50%;background:#555;display:inline-block;margin-right:6px}
+.on .dot{background:#3ddc84;box-shadow:0 0 8px #3ddc84}
+#status{color:var(--mute);font-size:14px;width:100%}
+button{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:14px;min-height:44px;padding:8px 14px;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+button.primary{background:var(--glow);border-color:transparent;color:#111;font-weight:600}
+button:disabled{opacity:.45}
+.stage{position:relative;margin:18px auto 8px;width:min(86vw,340px);aspect-ratio:1}
+.halo{position:absolute;inset:-12%;border-radius:50%;background:radial-gradient(circle,var(--glow) 0%,transparent 65%);opacity:.55;filter:blur(8px);transition:background .2s}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;border-radius:50%}
+#knob{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;border:3px solid #fff;border-radius:50%;box-shadow:0 1px 6px #000a;pointer-events:none}
+#power{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;font-weight:800;font-size:15px;background:#111a;backdrop-filter:blur(4px);border:2px solid #fff6}
+.row{display:flex;gap:10px;align-items:center;margin:14px 0}
+.row label{width:84px;color:var(--mute);font-size:14px}
+input[type=range]{flex:1;accent-color:var(--glow);height:44px}
+.val{width:44px;text-align:right;font-variant-numeric:tabular-nums;color:var(--mute)}
+.sw{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin:10px 0 4px}
+.sw button{padding:0;min-height:40px;border-radius:12px;border:2px solid #0000}
+h2{font-size:17px;margin:24px 0 6px}
+.fx{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fx button.act{border-color:var(--glow)}
+details{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+summary{cursor:pointer;font-weight:600;min-height:28px}
+pre{white-space:pre-wrap;font-size:13px;color:var(--mute);max-height:220px;overflow:auto;margin:8px 0 0}
+input[type=text],select{font:inherit;font-size:16px;background:#0d0e12;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;flex:1}
+.warn{background:#3a2412;border:1px solid #7a4a1f;border-radius:14px;padding:12px 14px;margin:14px 0;font-size:15px}
+.note{color:var(--mute);font-size:14px}
+@media(prefers-reduced-motion:reduce){.halo{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header id="hdr">
+  <h1>Light Remote</h1>
+  <button class="primary" id="connect">Connect lights</button>
+  <div id="status"><span class="dot"></span><span id="stxt">Not connected</span></div>
+</header>
+
+<div class="warn" id="nobt" hidden>
+  This browser can't use Bluetooth. On <b>Android</b> or a computer, open this page in <b>Chrome</b>. On <b>iPhone/iPad</b>, Safari doesn't support it. Install the free <b>Bluefy</b> browser from the App Store and open this page there.
+</div>
+
+<div class="stage">
+  <div class="halo" id="halo"></div>
+  <canvas id="wheel" width="680" height="680" aria-label="Colour wheel"></canvas>
+  <div id="knob"></div>
+  <button id="power" aria-pressed="true">ON</button>
+</div>
+
+<div class="row"><label for="bri">Brightness</label><input type="range" id="bri" min="1" max="100" value="100"><span class="val" id="briv">100%</span></div>
+<div class="row"><label for="wht">Whiteness</label><input type="range" id="wht" min="0" max="100" value="0"><span class="val" id="whtv">0%</span></div>
+
+<div class="sw" id="sw"></div>
+
+<h2>Effects</h2>
+<div class="fx" id="fx"></div>
+<div class="row"><label for="spd">Speed</label><input type="range" id="spd" min="0" max="100" value="50"><span class="val" id="spdv">50</span></div>
+
+<details>
+  <summary>Troubleshooting &amp; details</summary>
+  <p class="note">Close the Lotus Lantern app completely first: a strip only talks to one phone or app at a time. When the device list appears, pick the one named something like <b>ELK-BLEDOM</b>, <b>MELK</b>, <b>BLEDOM</b>, <b>LEDBLE</b> or <b>Triones</b>.</p>
+  <div class="row"><label for="proto">Protocol</label>
+    <select id="proto"><option value="auto">Auto-detect</option><option value="elk">ELK-BLEDOM (Lotus Lantern)</option><option value="tri">Triones / HappyLighting</option></select></div>
+  <div class="row"><input type="text" id="raw" placeholder="Raw hex, e.g. 7e000503ff000000ef"><button id="send">Send</button></div>
+  <pre id="log"></pre>
+</details>
+</main>
+
+<script>
+{
+const $=id=>document.getElementById(id);
+const log=m=>{const l=$('log');l.textContent=(new Date().toLocaleTimeString()+'  '+m+'\n'+l.textContent).slice(0,4000)};
+const hex=b=>[...b].map(x=>x.toString(16).padStart(2,'0')).join(' ');
+
+/* ---------- Protocols ---------- */
+const P={
+  elk:{
+    on:()=>[[0x7e,0x00,0x04,0xf0,0x00,0x01,0xff,0x00,0xef],[0x7e,0x04,0x04,0xf0,0x00,0x01,0xff,0x00,0xef]],
+    off:()=>[[0x7e,0x00,0x04,0x00,0x00,0x00,0xff,0x00,0xef],[0x7e,0x04,0x04,0x00,0x00,0x00,0xff,0x00,0xef]],
+    color:(r,g,b)=>[[0x7e,0x00,0x05,0x03,r,g,b,0x00,0xef]],
+    bright:v=>[[0x7e,0x00,0x01,v,0x00,0x00,0x00,0x00,0xef]],
+    effect:m=>[[0x7e,0x00,0x03,m,0x03,0x00,0x00,0x00,0xef]],
+    speed:v=>[[0x7e,0x00,0x02,v,0x00,0x00,0x00,0x00,0xef]],
+    fx:[['Jump 3 colours',0x87],['Jump 7 colours',0x88],['Fade 3 colours',0x89],['Fade 7 colours',0x8a],['Blink 7 colours',0x95],['Fade red',0x8b],['Fade green',0x8c],['Fade blue',0x8d]]
+  },
+  tri:{
+    on:()=>[[0xcc,0x23,0x33]],
+    off:()=>[[0xcc,0x24,0x33]],
+    color:(r,g,b)=>[[0x56,r,g,b,0x00,0xf0,0xaa]],
+    bright:null,
+    effect:(m,s)=>[[0xbb,m,s,0x44]],
+    speed:null,
+    fx:[['Rainbow fade',0x25],['Red pulse',0x26],['Green pulse',0x27],['Blue pulse',0x28],['Red/green fade',0x2d],['Rainbow strobe',0x30],['Rainbow jump',0x38],['White strobe',0x37]]
+  }
+};
+const SERVICES=[0xfff0,0xffd5,0xffe0,0xffe5,0xffd0,0xff00];
+const WRITE_PREF={0xfff0:0xfff3,0xffd5:0xffd9,0xffe5:0xffe9,0xffe0:0xffe1};
+
+let dev=null,ch=null,proto='elk',on=true,curFx=null;
+let hue=20,sat=1,bri=100,wht=0;
+
+/* ---------- Write queue (one GATT op at a time, latest colour wins) ---------- */
+let busy=false;const q=[];let pendingKey=null;
+function send(packets,key){
+  if(!ch)return;
+  if(key){const i=q.findIndex(x=>x.key===key);if(i>=0)q.splice(i,1)}
+  for(const p of packets)q.push({key,p:new Uint8Array(p)});
+  pump();
+}
+async function pump(){
+  if(busy)return;busy=true;
+  while(q.length&&ch){
+    const {p}=q.shift();
+    try{
+      if(ch.properties.writeWithoutResponse&&ch.writeValueWithoutResponse)await ch.writeValueWithoutResponse(p);
+      else await ch.writeValue(p);
+      log('→ '+hex(p));
+    }catch(e){log('write failed: '+e.message)}
+    await new Promise(r=>setTimeout(r,25));
+  }
+  busy=false;
+}
+
+/* ---------- Connect ---------- */
+function setStatus(t,ok){$('stxt').textContent=t;$('hdr').classList.toggle('on',!!ok);$('connect').textContent=ok?'Disconnect':'Connect lights'}
+async function connect(){
+  if(dev&&dev.gatt.connected){dev.gatt.disconnect();return}
+  try{
+    setStatus('Choose your lights from the list…');
+    dev=await navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:SERVICES});
+    dev.addEventListener('gattserverdisconnected',()=>{ch=null;setStatus('Disconnected')});
+    setStatus('Connecting to '+(dev.name||'device')+'…');
+    const server=await dev.gatt.connect();
+    let svcs=[];
+    try{svcs=await server.getPrimaryServices()}catch(e){log('service list failed: '+e.message)}
+    log('Services: '+svcs.map(s=>s.uuid.slice(4,8)).join(', '));
+    ch=null;let found=null;
+    // Preferred known characteristics first
+    for(const s of svcs){
+      const sid=parseInt(s.uuid.slice(4,8),16),want=WRITE_PREF[sid];
+      if(want){try{ch=await s.getCharacteristic(want);found=sid;break}catch(e){}}
+    }
+    // Otherwise any writable characteristic
+    if(!ch)for(const s of svcs){
+      for(const c of await s.getCharacteristics().catch(()=>[])){
+        if(c.properties.write||c.properties.writeWithoutResponse){ch=c;found=parseInt(s.uuid.slice(4,8),16);break}
+      }
+      if(ch)break;
+    }
+    if(!ch)throw new Error('No writable light channel found on this device');
+    const sel=$('proto').value;
+    proto=sel!=='auto'?sel:(found===0xfff0||found===0xff00?'elk':'tri');
+    $('proto').value=proto;
+    log('Using '+ch.uuid.slice(4,8)+' with '+proto+' protocol');
+    setStatus('Connected: '+(dev.name||'lights'),true);
+    renderFx();
+    on=true;send(P[proto].on(),'pw');pushColor();
+  }catch(e){
+    log('connect: '+e.message);
+    setStatus(e.name==='NotFoundError'?'No device chosen':'Could not connect: '+e.message);
+  }
+}
+
+/* ---------- Colour maths ---------- */
+function hsv(h,s,v){const f=n=>{const k=(n+h/60)%6;return v-v*s*Math.max(0,Math.min(k,4-k,1))};return[f(5),f(3),f(1)].map(x=>Math.round(x*255))}
+function curRGB(scaleBri){
+  let [r,g,b]=hsv(hue,sat,1);
+  const w=wht/100;r=r+(255-r)*w;g=g+(255-g)*w;b=b+(255-b)*w;
+  const k=scaleBri?bri/100:1;
+  return[r,g,b].map(x=>Math.round(x*k));
+}
+let tColor=0;
+function pushColor(){
+  const [r,g,b]=curRGB(false);
+  document.documentElement.style.setProperty('--glow',`rgb(${r},${g},${b})`);
+  $('halo').style.opacity=on?(.2+.5*bri/100):.08;
+  clearTimeout(tColor);tColor=setTimeout(()=>{
+    if(!ch)return;
+    const pr=P[proto];
+    if(pr.bright){send(pr.color(r,g,b),'c');send(pr.bright(bri),'b')}
+    else send(pr.color(...curRGB(true)),'c');
+    curFx=null;markFx();
+  },30);
+}
+
+/* ---------- Wheel ---------- */
+const cv=$('wheel'),cx=cv.getContext('2d');
+(function draw(){
+  const W=cv.width,R=W/2,img=cx.createImageData(W,W);
+  for(let y=0;y<W;y++)for(let x=0;x<W;x++){
+    const dx=x-R,dy=y-R,d=Math.hypot(dx,dy);if(d>R)continue;
+    const h=(Math.atan2(dy,dx)*180/Math.PI+360)%360,[r,g,b]=hsv(h,Math.min(1,d/R),1),i=(y*W+x)*4;
+    img.data[i]=r;img.data[i+1]=g;img.data[i+2]=b;img.data[i+3]=d>R-1.5?(R-d)*170:255;
+  }
+  cx.putImageData(img,0,0);
+})();
+function placeKnob(){
+  const rect=cv.getBoundingClientRect(),R=rect.width/2,a=hue*Math.PI/180;
+  $('knob').style.left=(R+Math.cos(a)*sat*R)+'px';$('knob').style.top=(R+Math.sin(a)*sat*R)+'px';
+  $('knob').style.background=`rgb(${hsv(hue,sat,1)})`;
+}
+function pick(e){
+  const rect=cv.getBoundingClientRect(),R=rect.width/2,dx=e.clientX-rect.left-R,dy=e.clientY-rect.top-R;
+  hue=(Math.atan2(dy,dx)*180/Math.PI+360)%360;sat=Math.min(1,Math.hypot(dx,dy)/R);
+  placeKnob();pushColor();save();
+}
+let dragging=false;
+cv.addEventListener('pointerdown',e=>{dragging=true;cv.setPointerCapture(e.pointerId);pick(e)});
+cv.addEventListener('pointermove',e=>{if(dragging)pick(e)});
+cv.addEventListener('pointerup',()=>dragging=false);
+new ResizeObserver(placeKnob).observe(cv);
+
+/* ---------- Controls ---------- */
+$('connect').onclick=()=>{if(!navigator.bluetooth){$('nobt').hidden=false;return}connect()};
+$('power').onclick=()=>{
+  on=!on;$('power').textContent=on?'ON':'OFF';$('power').setAttribute('aria-pressed',on);
+  send(on?P[proto].on():P[proto].off(),'pw');$('halo').style.opacity=on?(.2+.5*bri/100):.08;
+};
+$('bri').oninput=e=>{bri=+e.target.value;$('briv').textContent=bri+'%';pushColor();save()};
+$('wht').oninput=e=>{wht=+e.target.value;$('whtv').textContent=wht+'%';pushColor();save()};
+$('spd').oninput=e=>{
+  const v=+e.target.value;$('spdv').textContent=v;
+  const pr=P[proto];
+  if(pr.speed)send(pr.speed(v),'s');
+  else if(curFx!=null)send(pr.effect(curFx,Math.max(1,Math.round(31-v*.3))),'fx');
+};
+const SW=[[0,1,0],[30,1,0],[55,1,0],[120,1,0],[180,1,0],[230,1,0],[280,1,0],[0,0,100]];
+$('sw').innerHTML=SW.map((s,i)=>`<button data-i="${i}" aria-label="Preset colour" style="background:rgb(${s[2]?'255,244,230':hsv(s[0],s[1],1)})"></button>`).join('');
+$('sw').onclick=e=>{const b=e.target.closest('button');if(!b)return;const s=SW[b.dataset.i];hue=s[0];sat=s[1];wht=s[2];$('wht').value=wht;$('whtv').textContent=wht+'%';placeKnob();pushColor();save()};
+function renderFx(){$('fx').innerHTML=P[proto].fx.map(f=>`<button data-m="${f[1]}">${f[0]}</button>`).join('')}
+function markFx(){for(const b of $('fx').children)b.classList.toggle('act',+b.dataset.m===curFx)}
+$('fx').onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;curFx=+b.dataset.m;markFx();
+  const pr=P[proto],v=+$('spd').value;
+  send(pr.effect(curFx,Math.max(1,Math.round(31-v*.3))),'fx');if(pr.speed)send(pr.speed(v),'s');
+};
+$('proto').onchange=e=>{if(e.target.value!=='auto'){proto=e.target.value;renderFx();log('Protocol set to '+proto)}};
+$('send').onclick=()=>{
+  const s=$('raw').value.replace(/[^0-9a-f]/gi,'');
+  if(!s||s.length%2){log('Enter an even number of hex digits');return}
+  send([s.match(/../g).map(x=>parseInt(x,16))]);
+};
+
+/* ---------- Remember last colour ---------- */
+function save(){try{localStorage.setItem('lightRemote',JSON.stringify({hue,sat,bri,wht}))}catch(e){}}
+try{const s=JSON.parse(localStorage.getItem('lightRemote')||'null');if(s)({hue,sat,bri,wht}=s)}catch(e){}
+$('bri').value=bri;$('briv').textContent=bri+'%';$('wht').value=wht;$('whtv').textContent=wht+'%';
+renderFx();placeKnob();pushColor();
+if(!navigator.bluetooth)$('nobt').hidden=false;
+}
+</script>
+</body>
+</html>
