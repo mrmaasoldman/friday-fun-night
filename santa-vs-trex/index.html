@@ -90,6 +90,29 @@ td.sv{text-align:left;color:var(--tan)}td.rv{text-align:right;color:var(--tan)}
 .greatest h2{font:400 clamp(34px,6vw,70px)/1.05 "Alfa Slab One",Georgia,serif;text-transform:uppercase;margin-bottom:14px}
 .greatest p{margin:0 auto 24px;max-width:52ch;font-size:clamp(17px,2vw,20px)}
 .greatest .btn{background:var(--red);color:var(--cream);box-shadow:6px 6px 0 var(--ink)}
+.fund{background:var(--soot2);border-top:3px solid var(--tan2);border-bottom:3px solid var(--tan2);text-align:center}
+.fund .lead{margin:0 auto 26px;max-width:58ch;color:var(--tan)}
+.tug{max-width:900px;margin:0 auto 10px}
+.tug .names{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:400 clamp(24px,3.6vw,40px) "Alfa Slab One",Georgia,serif;text-transform:uppercase}
+.tug .amt{display:block;font:700 clamp(20px,2.6vw,30px) Oswald,Impact,sans-serif;letter-spacing:1px;color:var(--cream)}
+.tug .names div:last-child{text-align:right}
+.meter2{position:relative;display:flex;height:34px;border:3px solid var(--tan2);background:#120e0b;margin-top:10px;overflow:hidden}
+.meter2 i{display:block;height:100%;transition:width .8s}
+.meter2 .ms{background:repeating-linear-gradient(135deg,#a6261c 0 14px,#8e1f17 14px 28px)}
+.meter2 .mt{background:repeating-linear-gradient(135deg,#5c6b3a 0 14px,#4c5a30 14px 28px);margin-left:auto}
+.meter2::after{content:"";position:absolute;left:50%;top:-4px;bottom:-4px;width:3px;background:var(--cream)}
+.lead2{font:700 clamp(17px,2vw,22px) Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--cream);margin:12px 0 4px}
+.upd{font-size:14px;color:var(--tan2);margin:0 0 26px}
+.teams{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,3vw,34px);max-width:900px;margin:0 auto}
+.team{background:var(--tan);color:var(--ink);padding:18px 18px 22px;box-shadow:0 12px 28px rgba(0,0,0,.5)}
+.team h3{font:400 clamp(24px,3vw,32px) "Alfa Slab One",Georgia,serif;text-transform:uppercase;margin-bottom:10px}
+.team img{display:block;width:150px;height:150px;margin:0 auto 12px;border:2px solid var(--ink);image-rendering:pixelated}
+.team .btn{min-height:52px;font-size:20px;padding:0 22px}
+.team.s .btn{background:var(--red);color:var(--cream);box-shadow:5px 5px 0 var(--ink)}
+.team.r .btn{background:#4c5a30;color:var(--cream);box-shadow:5px 5px 0 var(--ink)}
+.team p{margin:10px 0 0;font-size:14px}
+.fineprint{max-width:62ch;margin:24px auto 0;font-size:14px;color:var(--tan2)}
+@media(max-width:620px){.teams{grid-template-columns:1fr}}
 footer{padding:22px 16px;text-align:center;font:500 15px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--tan2)}
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px max(3vw,12px);background:var(--soot);color:var(--cream);border-top:4px solid var(--red)}
 .pb{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:0;background:var(--red);cursor:pointer}
@@ -126,6 +149,24 @@ footer{padding:22px 16px;text-align:center;font:500 15px Oswald,Impact,sans-seri
     <p class="sub">This is the song playing outside.</p>
   </div>
 </header>
+
+<section class="band fund" id="fund">
+  <div class="wrap">
+    <div class="head"><h2 class="worn">Pick a side</h2></div>
+    <p class="lead">This year the fight is up to you. Give to Team Santa or Team T-Rex. Whichever side raises the most by Christmas Eve wins the Grudge Match, and every dollar goes toward making the display bigger next year.</p>
+    <div class="tug" aria-live="polite">
+      <div class="names"><div>Santa<span class="amt" id="sAmt">$0</span></div><div>T-Rex<span class="amt" id="tAmt">$0</span></div></div>
+      <div class="meter2" role="img" id="tugBar" aria-label="Donation tug of war"><i class="ms" id="sBar" style="width:50%"></i><i class="mt" id="tBar" style="width:50%"></i></div>
+      <p class="lead2" id="leader">The fight hasn't started yet</p>
+      <p class="upd" id="upd"></p>
+    </div>
+    <div class="teams">
+      <article class="team s"><h3>Team Santa</h3><img src="venmo-santa.png" alt="QR code to give to Team Santa on Venmo"><a class="btn" href="https://venmo.com/Bethany-Maas-1?txn=pay&amp;note=Team%20Santa%20-%20Rematch%20Fund" target="_blank" rel="noopener">Give to Santa</a><p>Keep "Team Santa" in the Venmo note so it counts for Santa.</p></article>
+      <article class="team r"><h3>Team T-Rex</h3><img src="venmo-trex.png" alt="QR code to give to Team T-Rex on Venmo"><a class="btn" href="https://venmo.com/Bethany-Maas-1?txn=pay&amp;note=Team%20T-Rex%20-%20Rematch%20Fund" target="_blank" rel="noopener">Give to T-Rex</a><p>Keep "Team T-Rex" in the Venmo note so it counts for T-Rex.</p></article>
+    </div>
+    <p class="fineprint">Donations go to Venmo @Bethany-Maas-1 and are used only to make next year's Santa vs. T-Rex display bigger. Totals are updated by hand, so new gifts can take a day to show up.</p>
+  </div>
+</section>
 
 <section class="band paper" id="story">
   <div class="wrap">
@@ -296,6 +337,19 @@ let drag=false;
 seek.addEventListener('input',()=>{drag=true;tm.textContent=`${fmt(+seek.value)} / ${fmt(a.duration||170)}`});
 seek.addEventListener('change',()=>{try{a.currentTime=+seek.value}catch(e){}drag=false});
 a.addEventListener('timeupdate',()=>{if(!drag)seek.value=a.currentTime;tm.textContent=`${fmt(a.currentTime)} / ${fmt(a.duration||170)}`});
+}
+</script>
+<script>
+{
+const $=id=>document.getElementById(id),money=n=>'$'+Math.round(n).toLocaleString();
+fetch('scores.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(d=>{
+  const s=+d.santa||0,r=+d.trex||0,tot=s+r,sp=tot?Math.max(4,Math.min(96,s/tot*100)):50;
+  $('sAmt').textContent=money(s);$('tAmt').textContent=money(r);
+  $('sBar').style.width=sp+'%';$('tBar').style.width=(100-sp)+'%';
+  $('tugBar').setAttribute('aria-label',`Santa ${money(s)}, T-Rex ${money(r)}`);
+  $('leader').textContent=!tot?"The fight hasn't started yet":s===r?'Dead even!':(s>r?'Santa':'T-Rex')+' leads by '+money(Math.abs(s-r));
+  if(d.updated)$('upd').textContent='Last updated '+d.updated;
+}).catch(()=>{});
 }
 </script>
 </body>

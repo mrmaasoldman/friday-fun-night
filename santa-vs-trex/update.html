@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Update the Rematch Fund</title>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--soot:#1c1713;--tan:#e6d3a9;--tan2:#cdb27c;--red:#a6261c;--grn:#4c5a30;--cream:#f2e3bd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--soot);color:var(--cream);font:17px/1.5 system-ui,sans-serif;padding:20px 16px 40px}
+main{max-width:520px;margin:0 auto}
+h1{font:400 30px/1.1 "Alfa Slab One",Georgia,serif;text-transform:uppercase;margin:0 0 6px}
+p{margin:0 0 14px;color:var(--tan)}
+.box{background:var(--tan);color:var(--soot);padding:16px;margin:0 0 16px}
+.box h2{font:700 22px Oswald,Impact,sans-serif;letter-spacing:1px;text-transform:uppercase;margin:0 0 8px}
+.box.s h2{color:var(--red)}.box.r h2{color:var(--grn)}
+label{display:block;font:700 14px Oswald,Impact,sans-serif;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+input{width:100%;font-size:22px;padding:10px;border:2px solid var(--soot);background:#fff;color:var(--soot);border-radius:0}
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+button{font:700 18px Oswald,Impact,sans-serif;letter-spacing:1px;text-transform:uppercase;min-height:46px;padding:0 16px;border:2px solid var(--soot);background:var(--cream);color:var(--soot);cursor:pointer}
+button.save{width:100%;min-height:56px;font-size:22px;background:var(--red);color:var(--cream);border-color:var(--cream)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+#msg{min-height:24px;margin:12px 0;font-weight:700;color:var(--cream)}
+details{margin-top:26px;color:var(--tan)}
+summary{cursor:pointer;font-weight:700}
+ol{padding-left:20px}
+a{color:var(--cream)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Update the Rematch Fund</h1>
+  <p>Type in each side's total, or tap a button to add a gift, then press Save. The website shows the new totals in about a minute.</p>
+
+  <div class="box s"><h2>Team Santa</h2><label for="s">Total ($)</label><input id="s" type="number" inputmode="decimal" min="0" step="1" value="0">
+    <div class="quick" data-for="s"><button type="button" data-add="1">+$1</button><button type="button" data-add="5">+$5</button><button type="button" data-add="10">+$10</button><button type="button" data-add="20">+$20</button></div></div>
+  <div class="box r"><h2>Team T-Rex</h2><label for="t">Total ($)</label><input id="t" type="number" inputmode="decimal" min="0" step="1" value="0">
+    <div class="quick" data-for="t"><button type="button" data-add="1">+$1</button><button type="button" data-add="5">+$5</button><button type="button" data-add="10">+$10</button><button type="button" data-add="20">+$20</button></div></div>
+
+  <button class="save" type="button" id="save">Save totals</button>
+  <div id="msg" role="status"></div>
+  <p><a href="./#fund">Back to the website</a></p>
+
+  <details id="setup">
+    <summary>One-time setup: GitHub key</summary>
+    <p>This page saves to your GitHub site, so it needs a key from your GitHub account. You only do this once per phone.</p>
+    <ol>
+      <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>.</li>
+      <li>Name it "Rematch Fund". Set the expiration to the end of January.</li>
+      <li>Under Repository access, choose <b>Only select repositories</b> and pick <b>friday-fun-night</b>.</li>
+      <li>Under Permissions, set <b>Contents</b> to <b>Read and write</b>.</li>
+      <li>Press Generate, copy the key, and paste it here.</li>
+    </ol>
+    <label for="tok">GitHub key</label><input id="tok" type="password" autocomplete="off" placeholder="github_pat_...">
+    <div class="quick"><button type="button" id="keep">Save key on this phone</button><button type="button" id="forget">Forget key</button></div>
+  </details>
+</main>
+<script>
+{
+const API='https://api.github.com/repos/mrmaasoldman/friday-fun-night/contents/santa-vs-trex/scores.json';
+const $=id=>document.getElementById(id),msg=m=>{$('msg').textContent=m};
+const getTok=()=>{try{return localStorage.getItem('rematchKey')||''}catch(e){return ''}};
+let sha=null;
+function hdr(){return{'Authorization':'Bearer '+getTok(),'Accept':'application/vnd.github+json'}}
+async function load(){
+  if(!getTok()){$('setup').open=true;msg('Add your GitHub key below first.');
+    try{const d=await (await fetch('scores.json?t='+Date.now(),{cache:'no-store'})).json();$('s').value=d.santa||0;$('t').value=d.trex||0}catch(e){}return}
+  try{const r=await fetch(API+'?ref=main&t='+Date.now(),{headers:hdr(),cache:'no-store'});
+    if(!r.ok)throw new Error(r.status);const j=await r.json();sha=j.sha;
+    const d=JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))));
+    $('s').value=d.santa||0;$('t').value=d.trex||0;msg('Loaded the current totals.')}
+  catch(e){msg(String(e.message)==='401'?'That GitHub key did not work. Check the setup steps below.':'Could not load the totals. Check your connection and key.');$('setup').open=true}
+}
+document.querySelectorAll('.quick[data-for] button').forEach(b=>b.addEventListener('click',()=>{const i=$(b.parentNode.dataset.for);i.value=Math.max(0,(+i.value||0)+(+b.dataset.add))}));
+$('keep').addEventListener('click',()=>{const v=$('tok').value.trim();if(!v){msg('Paste the key first.');return}try{localStorage.setItem('rematchKey',v)}catch(e){}$('tok').value='';$('setup').open=false;load()});
+$('forget').addEventListener('click',()=>{try{localStorage.removeItem('rematchKey')}catch(e){}msg('Key removed from this phone.')});
+$('save').addEventListener('click',async()=>{
+  if(!getTok()){$('setup').open=true;msg('Add your GitHub key below first.');return}
+  const s=Math.max(0,Math.round(+$('s').value||0)),t=Math.max(0,Math.round(+$('t').value||0));
+  const d=new Date(),upd=d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' at '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  const body={message:`Rematch Fund: Santa $${s}, T-Rex $${t}`,content:btoa(JSON.stringify({santa:s,trex:t,updated:upd})),branch:'main'};
+  if(sha)body.sha=sha;
+  $('save').disabled=true;msg('Saving...');
+  try{let r=await fetch(API,{method:'PUT',headers:hdr(),body:JSON.stringify(body)});
+    if(r.status===409||r.status===422){await load();body.sha=sha;r=await fetch(API,{method:'PUT',headers:hdr(),body:JSON.stringify(body)})}
+    if(!r.ok)throw new Error(r.status);const j=await r.json();sha=j.content.sha;
+    msg(`Saved! Santa $${s}, T-Rex $${t}. The website updates in about a minute.`)}
+  catch(e){msg('Save did not work ('+e.message+'). Try again, or check your key.')}
+  $('save').disabled=false});
+load();
+}
+</script>
+</body>
+</html>
