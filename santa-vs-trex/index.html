@@ -113,6 +113,12 @@ td.sv{text-align:left;color:var(--tan)}td.rv{text-align:right;color:var(--tan)}
 .team p{margin:10px 0 0;font-size:14px}
 .fineprint{max-width:62ch;margin:24px auto 0;font-size:14px;color:var(--tan2)}
 @media(max-width:620px){.teams{grid-template-columns:1fr}}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,3vw,30px);max-width:900px;margin:0 auto}
+.gm{background:var(--soot);border:3px solid var(--tan2);padding:22px 20px 26px;box-shadow:0 12px 28px rgba(0,0,0,.45)}
+.gm h3{font:400 clamp(24px,3vw,32px) "Alfa Slab One",Georgia,serif;text-transform:uppercase;margin-bottom:8px}
+.gm p{margin:0 auto 18px;color:var(--tan);max-width:34ch}
+.gm .btn{font-size:21px;padding:0 24px}
+@media(max-width:700px){.games{grid-template-columns:1fr}}
 footer{padding:22px 16px;text-align:center;font:500 15px Oswald,Impact,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--tan2)}
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;align-items:center;gap:14px;padding:10px max(3vw,12px);background:var(--soot);color:var(--cream);border-top:4px solid var(--red)}
 .pb{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:0;background:var(--red);cursor:pointer}
@@ -224,8 +230,11 @@ footer{padding:22px 16px;text-align:center;font:500 15px Oswald,Impact,sans-seri
 <section class="band cta" id="game">
   <div class="wrap">
     <h2 class="worn">Step into the ring</h2>
-    <p>Think you'd do better? Play the Santa vs. T-Rex fighting game with a friend or against the computer.</p>
-    <a class="btn" href="game/">Play the game</a>
+    <p>Think you'd do better? Pick your game.</p>
+    <div class="games">
+      <article class="gm"><h3>The Grudge Match</h3><p>Street-fighter style. Go toe to toe with a friend or the computer.</p><a class="btn" href="game/">Play the fight</a></article>
+      <article class="gm"><h3>Rooftop Rescue</h3><p>Classic arcade style. Climb the ladders, dodge what T-Rex throws, save Mrs. Claus, then trap him in gingerbread glue.</p><a class="btn" href="rooftop/">Play Rooftop Rescue</a></article>
+    </div>
   </div>
 </section>
 
